@@ -13,8 +13,9 @@ class Brand(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(blank=True)
+    picture = models.ImageField(upload_to='pictures/', default='pictures/noimage.png')
+    price = models.DecimalField(decimal_places=2, max_digits=24, default=0)
     brand = models.ForeignKey(Brand)
-    picture = models.ImageField(blank=True)
     category = models.ForeignKey('Category')
     created_by = models.ForeignKey(User)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -39,8 +40,19 @@ class Category(models.Model):
 
 
 class Cart(models.Model):
-    pass
+    user = models.ForeignKey(User)
+    total = models.DecimalField(decimal_places=2, max_digits=24, default=0)
+    checked_out = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "%s at %s" % (self.user.get_full_name(), self.total)
 
 
 class CartItem(models.Model):
-    pass
+    product = models.ForeignKey(Product)
+    quantity = models.IntegerField()
+    cart = models.ForeignKey(Cart)
+
+    def __str__(self):
+        return "%s x%s" % (self.product.title, self.quantity)

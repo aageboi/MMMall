@@ -72,6 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MMMall.wsgi.application'
 
+# MEDIA_URL = '/pictures/'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
